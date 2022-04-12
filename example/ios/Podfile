@@ -10,6 +10,10 @@ target 'SpeechCommandsExample' do
 
   pod 'react-native-speech-commands', :path => '../..'
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone"
+  
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and

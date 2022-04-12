@@ -36,7 +36,8 @@ class SpeechCommands: NSObject {
 
         bufferSize = workingAudioInputManager.bufferSize
 
-        workingAudioInputManager.checkPermissionsAndStartTappingMicrophone()
+//        workingAudioInputManager.checkPermissionsAndStartTappingMicrophone()
+        workingAudioInputManager.startTappingMicrophone()
         
         // TODO: maybe it fails still...
         resolve(true)

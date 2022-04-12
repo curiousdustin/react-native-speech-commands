@@ -20,3 +20,13 @@ const SpeechCommands = NativeModules.SpeechCommands
 export function multiply(a: number, b: number): Promise<number> {
   return SpeechCommands.multiply(a, b);
 }
+
+export function startAudioRecognition(): Promise<boolean> {
+  return SpeechCommands.startAudioRecognition()
+    .then((result: boolean) => {
+      console.log('startAudioRecognition', { result });
+    })
+    .catch((error: Error) => {
+      console.error('startAudioRecognition', error);
+    });
+}

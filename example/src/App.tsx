@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-speech-commands';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { multiply, startAudioRecognition } from 'react-native-speech-commands';
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -13,6 +13,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Result: {result}</Text>
+      <Button
+        title={'Start Audio Recognition'}
+        onPress={() => {
+          console.log('Should start');
+          startAudioRecognition();
+        }}
+      />
     </View>
   );
 }

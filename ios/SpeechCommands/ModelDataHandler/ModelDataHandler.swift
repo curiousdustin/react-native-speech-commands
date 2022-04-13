@@ -53,7 +53,7 @@ class ModelDataHandler {
   private let sampleDuration = 1000
   private let minimumCount = 3
   private let averageWindowDuration = 1000.0
-  private let suppressionMs = 1500.0
+  private let suppressionMs = 500.0
   private let threshold = 0.5
   private let minTimeBetweenSamples = 30.0
   private let maxInt16AsFloat32: Float32 = 32767.0

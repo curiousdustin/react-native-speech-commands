@@ -64,10 +64,9 @@ class SpeechCommands: RCTEventEmitter {
     private func runModel(onBuffer buffer: [Int16]) {
         result = modelDataHandler?.runModel(onBuffer: buffer)
 
-        if let resultName = result?.recognizedCommand?.name {
-            print("result: " + resultName)
-
-            sendEvent(withName: "result", body: resultName)
+        if let command = result?.recognizedCommand?.name {
+            print("result: " + command)
+            sendEvent(withName: "result", body: ["command": command])
         }
     }
 }

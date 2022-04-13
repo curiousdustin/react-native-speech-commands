@@ -124,5 +124,11 @@ class AudioInputManager: NSObject {
       print(error.localizedDescription)
     }
   }
+    
+    /** This method stops tapping the microphone input
+     */
+    func stopTappingMicrophone() {
+      audioEngine.stop()
+    }
 
 }

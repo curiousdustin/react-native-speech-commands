@@ -9,7 +9,7 @@ import {
 } from 'react-native-permissions';
 
 import { StyleSheet, View, Text, Button, Platform } from 'react-native';
-import { multiply, startAudioRecognition } from 'react-native-speech-commands';
+import SpeechCommands from 'react-native-speech-commands';
 
 const micPermission = Platform.select({
   ios: PERMISSIONS.IOS.MICROPHONE,
@@ -18,18 +18,13 @@ const micPermission = Platform.select({
 });
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
   const [permissionStatus, setPermissionStatus] =
     React.useState<PermissionStatus>(RESULTS.DENIED);
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const [resultWord, setResultWord] = React.useState<string>('');
 
   return (
     <View style={styles.container}>
-      <Text>Multiple Result: {result}</Text>
       <Text>permissionStatus: {permissionStatus}</Text>
       <Button
         title={`Check Permission`}
@@ -72,10 +67,25 @@ export default function App() {
           title={'Start Audio Recognition'}
           onPress={() => {
             console.log('Should start');
-            startAudioRecognition();
+            SpeechCommands.start((result) => {
+              console.log('App', 'result:', result);
+              setResultWord(result);
+            });
           }}
         />
       )}
+      {/*  */}
+      {permissionStatus === RESULTS.GRANTED && (
+        <Button
+          title={'Stop Audio Recognition'}
+          onPress={() => {
+            console.log('Should stop');
+            SpeechCommands.stop();
+          }}
+        />
+      )}
+      {/*  */}
+      <Text>resultWord: {resultWord}</Text>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 @objc(SpeechCommands)
-class SpeechCommands: NSObject {
+class SpeechCommands: RCTEventEmitter {
     // MARK: Objects Handling Core Functionality
 
     private var modelDataHandler: ModelDataHandler? =
@@ -11,9 +11,8 @@ class SpeechCommands: NSObject {
     private var result: Result?
     private var bufferSize: Int = 0
 
-    @objc(multiply:withB:withResolver:withRejecter:)
-    func multiply(a: Float, b: Float, resolve: RCTPromiseResolveBlock, reject _: RCTPromiseRejectBlock) {
-        resolve(a * b)
+    override func supportedEvents() -> [String]! {
+        return ["result"]
     }
 
     /**
@@ -38,7 +37,23 @@ class SpeechCommands: NSObject {
 
 //        workingAudioInputManager.checkPermissionsAndStartTappingMicrophone()
         workingAudioInputManager.startTappingMicrophone()
-        
+
+        // TODO: maybe it fails still...
+        resolve(true)
+    }
+
+    /**
+     Initializes the AudioInputManager and starts recognizing on the output buffers.
+     */
+    @objc(stopAudioRecognition:withRejecter:)
+    private func stopAudioRecognition(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        guard let workingAudioInputManager = audioInputManager else {
+            reject("no_input", "Speech Commands stop failed because audioInputManager does not exist", nil)
+            return
+        }
+
+        workingAudioInputManager.stopTappingMicrophone()
+
         // TODO: maybe it fails still...
         resolve(true)
     }
@@ -51,6 +66,8 @@ class SpeechCommands: NSObject {
 
         if let resultName = result?.recognizedCommand?.name {
             print("result: " + resultName)
+
+            sendEvent(withName: "result", body: resultName)
         }
     }
 }
@@ -70,3 +87,9 @@ extension SpeechCommands: AudioInputManagerDelegate {
         print("Microphone Permissions Denied")
     }
 }
+
+// extension SpeechCommands: RCTEventEmitter {
+//    override func supportedEvents() -> [String]! {
+//        return ["result"]
+//    }
+// }

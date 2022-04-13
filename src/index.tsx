@@ -1,32 +1,42 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'react-native-speech-commands' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+let onResultCallback: (result: string) => void = (result) => {
+  console.log('onResultCallback:', { result });
+};
 
-const SpeechCommands = NativeModules.SpeechCommands
-  ? NativeModules.SpeechCommands
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+const SpeechCommandsEmitter = new NativeEventEmitter(
+  NativeModules.SpeechCommands
+);
 
-export function multiply(a: number, b: number): Promise<number> {
-  return SpeechCommands.multiply(a, b);
-}
+SpeechCommandsEmitter.addListener('result', (result) => {
+  if (onResultCallback) {
+    onResultCallback(result);
+  }
+});
 
-export function startAudioRecognition(): Promise<boolean> {
-  return SpeechCommands.startAudioRecognition()
+const start = async (callback: (result: string) => void) => {
+  onResultCallback = callback;
+
+  return NativeModules.SpeechCommands.startAudioRecognition()
     .then((result: boolean) => {
       console.log('startAudioRecognition', { result });
     })
     .catch((error: Error) => {
       console.error('startAudioRecognition', error);
     });
-}
+};
+
+const stop = async () => {
+  return NativeModules.SpeechCommands.stopAudioRecognition()
+    .then((result: boolean) => {
+      console.log('stopAudioRecognition', { result });
+    })
+    .catch((error: Error) => {
+      console.error('stopAudioRecognition', error);
+    });
+};
+
+export default {
+  start,
+  stop,
+};

@@ -1,6 +1,6 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
-let onResultCallback: (result: string) => void = (result) => {
+let onResultCallback: (result: { command: string }) => void = (result) => {
   console.log('onResultCallback:', { result });
 };
 
@@ -14,7 +14,7 @@ SpeechCommandsEmitter.addListener('result', (result) => {
   }
 });
 
-const start = async (callback: (result: string) => void) => {
+const start = async (callback: (result: { command: string }) => void) => {
   onResultCallback = callback;
 
   return NativeModules.SpeechCommands.startAudioRecognition()

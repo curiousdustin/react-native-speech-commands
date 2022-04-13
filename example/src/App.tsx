@@ -69,7 +69,7 @@ export default function App() {
             console.log('Should start');
             SpeechCommands.start((result) => {
               console.log('App', 'result:', result);
-              setResultWord(result);
+              setResultWord(result.command);
             });
           }}
         />

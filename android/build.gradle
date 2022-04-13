@@ -48,6 +48,10 @@ repositories {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
         url("$rootDir/../node_modules/react-native/android")
     }
+    maven {
+      name 'ossrh-snapshot'
+      url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
     google()
     mavenCentral()
     jcenter()
@@ -56,4 +60,6 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    implementation 'org.tensorflow:tensorflow-lite:2.2.0'
 }

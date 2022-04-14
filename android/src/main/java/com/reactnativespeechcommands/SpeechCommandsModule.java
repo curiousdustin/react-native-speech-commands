@@ -48,7 +48,7 @@ public class SpeechCommandsModule extends ReactContextBaseJavaModule {
     SAMPLE_RATE * SAMPLE_DURATION_MS / 1000
   );
   private static final long AVERAGE_WINDOW_DURATION_MS = 1000;
-  private static final float DETECTION_THRESHOLD = 0.250f;
+  private static final float DETECTION_THRESHOLD = 0.150f;
   private static final int SUPPRESSION_MS = 500;
   private static final int MINIMUM_COUNT = 3;
   private static final long MINIMUM_TIME_BETWEEN_SAMPLES_MS = 30;
@@ -255,6 +255,9 @@ public class SpeechCommandsModule extends ReactContextBaseJavaModule {
       Log.e(LOG_TAG, "Audio Record can't initialize!");
       return;
     }
+
+    // clear recording buffer in case it already had previous data in it
+    recordingBuffer = new short[RECORDING_LENGTH];
 
     record.startRecording();
 

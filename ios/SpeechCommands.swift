@@ -48,7 +48,6 @@ class SpeechCommands: RCTEventEmitter {
 
         bufferSize = workingAudioInputManager.bufferSize
 
-//        workingAudioInputManager.checkPermissionsAndStartTappingMicrophone()
         workingAudioInputManager.startTappingMicrophone()
 
         // TODO: maybe it fails still...
@@ -93,15 +92,4 @@ extension SpeechCommands: AudioInputManagerDelegate {
         runModel(onBuffer: Array(channelData[0 ..< handler.sampleRate]))
         runModel(onBuffer: Array(channelData[handler.sampleRate ..< bufferSize]))
     }
-
-    func showPermissionsDeniedAlert() {
-        // TODO: message back to react so it can display error
-        print("Microphone Permissions Denied")
-    }
 }
-
-// extension SpeechCommands: RCTEventEmitter {
-//    override func supportedEvents() -> [String]! {
-//        return ["result"]
-//    }
-// }

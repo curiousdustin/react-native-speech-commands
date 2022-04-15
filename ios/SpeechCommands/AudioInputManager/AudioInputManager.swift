@@ -17,7 +17,6 @@ import AVFoundation
 
 
 protocol AudioInputManagerDelegate {
-  func showPermissionsDeniedAlert()
   func didOutput(channelData: [Int16])
 }
 
@@ -45,31 +44,6 @@ class AudioInputManager: NSObject {
     // We are setting the buffer size to two times the Sample rate
     bufferSize = self.sampleRate * 2
     super.init()
-  }
-
-    
-    
-  func checkPermissionsAndStartTappingMicrophone() {
-    switch AVAudioSession.sharedInstance().recordPermission {
-
-    case .granted:
-      startTappingMicrophone()
-    case .denied:
-      delegate?.showPermissionsDeniedAlert()
-    case .undetermined:
-      requestPermissions()
-    }
-  }
-
-  func requestPermissions() {
-    AVAudioSession.sharedInstance().requestRecordPermission { (granted) in
-      if granted {
-        self.startTappingMicrophone()
-      }
-      else {
-        self.checkPermissionsAndStartTappingMicrophone()
-      }
-    }
   }
 
   /** This method starts tapping the microphone input and converts it into the format for which the model is trained and periodically returns it in the block

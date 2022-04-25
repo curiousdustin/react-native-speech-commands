@@ -22,16 +22,20 @@ class SpeechCommands: RCTEventEmitter {
      */
     @objc(startAudioRecognition:withRejecter:)
     private func startAudioRecognition(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        // Note: This is disabled because in the Pinna project, the session will already be configured.
+        //
         // Switch the category of the audio session to one appropriate for using the microphone
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playAndRecord)
-            try audioSession.setActive(true)
-        } catch let error as NSError {
-            print("ERROR:", error)
-            reject("bad_session", "Speech Commands start failed because the audio session could not be configured", nil)
-            return
-        }
+        // let audioSession = AVAudioSession.sharedInstance()
+        // do {
+        //     try audioSession.setCategory(.playAndRecord)
+        //     try audioSession.setActive(true)
+        // } catch let error as NSError {
+        //     print("ERROR:", error)
+        //     reject("bad_session", "Speech Commands start failed because the audio session could not be configured", nil)
+        //     return
+        // }
+        //
+        //
 
         guard let handler = modelDataHandler else {
             reject("no_handler", "Speech Commands start failed because modelDataHandler does not exist", nil)

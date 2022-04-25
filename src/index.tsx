@@ -22,7 +22,7 @@ const start = async (callback: (result: { command: string }) => void) => {
       console.log('startAudioRecognition', { result });
     })
     .catch((error: Error) => {
-      console.warn('startAudioRecognition', error);
+      // console.log('startAudioRecognition', error);
       throw error;
     });
 };
@@ -33,7 +33,7 @@ const stop = async () => {
       console.log('stopAudioRecognition', { result });
     })
     .catch((error: Error) => {
-      console.warn('stopAudioRecognition', error);
+      // console.log('stopAudioRecognition', error);
       throw error;
     });
 };
